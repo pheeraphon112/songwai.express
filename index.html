@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ส่งไว Express — ส่งพัสดุง่าย ราคาดี ใกล้บ้านคุณ</title>
+  <meta name="description" content="ส่งพัสดุทุกเส้นทางทั่วไทย ราคาถูกกว่า สะดวกกว่า มีสาขาใกล้บ้านคุณ — ส่งไว Express">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:        #E53935;
+      --red-dark:   #C62828;
+      --red-deeper: #B71C1C;
+      --red-light:  #FFEBEE;
+      --red-mid:    #EF9A9A;
+      --white:      #FFFFFF;
+      --off-white:  #FAFAFA;
+      --gray-light: #F5F5F5;
+      --gray:       #9E9E9E;
+      --gray-dark:  #616161;
+      --dark:       #212121;
+      --black:      #0D0D0D;
+      --gold:       #C8A96E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── ANNOUNCEMENT ── */
+    .announce {
+      background: var(--red-dark);
+      color: var(--white);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .announce span { color: #FFD54F; font-weight: 700; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #F0F0F0;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 800; font-size: 16px;
+      letter-spacing: -0.03em;
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.1;
+    }
+    .logo-text small {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-dark);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-cta {
+      background: var(--red);
+      color: white !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--red-dark) !important; color: white !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh;
+      background: linear-gradient(135deg, #B71C1C 0%, #E53935 40%, #EF5350 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 40px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0,0,0,0.15) 0%, transparent 50%);
+    }
+    /* Diagonal stripe pattern */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.03) 40px,
+        rgba(255,255,255,0.03) 80px
+      );
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: #69F0AE;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .hero h1 {
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 800;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 .accent {
+      color: #FFD54F;
+    }
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 40px;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: white;
+      color: var(--red);
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.25);
+      border-color: white;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .hero-stat .num {
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+    .hero-stat .lbl {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+    .hero-stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.2);
+      align-self: stretch;
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      position: relative;
+    }
+    .hero-card-stack {
+      position: relative;
+    }
+    .hero-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+    .hero-track-list { list-style: none; }
+    .hero-track-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid #F5F5F5;
+    }
+    .hero-track-item:last-child { border-bottom: none; }
+    .track-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .track-dot.delivered { background: #4CAF50; }
+    .track-dot.transit   { background: #FF9800; }
+    .track-dot.pickup    { background: var(--red); }
+    .track-info { flex: 1; }
+    .track-id   { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .track-dest { font-size: 12px; color: var(--gray); }
+    .track-status { font-size: 12px; font-weight: 600; }
+    .track-status.delivered { color: #4CAF50; }
+    .track-status.transit   { color: #FF9800; }
+    .track-status.pickup    { color: var(--red); }
+
+    /* Floating badges on hero */
+    .hero-float {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 14px 18px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero-float.f1 { top: -30px; right: -20px; animation-delay: 0s; }
+    .hero-float.f2 { bottom: -20px; left: -30px; animation-delay: 1.5s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .float-label { font-size: 11px; color: var(--gray); margin-bottom: 4px; }
+    .float-value { font-size: 18px; font-weight: 800; color: var(--dark); }
+    .float-value span { font-size: 12px; font-weight: 400; color: var(--gray); }
+
+    /* ── CARRIERS ── */
+    .carriers {
+      background: var(--off-white);
+      border-bottom: 1px solid #EEEEEE;
+      padding: 20px 40px;
+    }
+    .carriers-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .carriers-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .carriers-divider {
+      width: 1px; height: 24px;
+      background: #E0E0E0;
+    }
+    .carriers-list {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .carrier-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      border: 1px solid #EEEEEE;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+    .carrier-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: 96px 40px; }
+    .section.bg-gray { background: var(--gray-light); }
+    .section.bg-red-light { background: var(--red-light); }
+    .section.bg-dark { background: var(--dark); }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      background: var(--red-light);
+      padding: 5px 12px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .section-tag.light {
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+    }
+    .section-title {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .section-title.light { color: white; }
+    .section-sub {
+      font-size: 17px;
+      color: var(--gray-dark);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+    .section-sub.light { color: rgba(255,255,255,0.75); }
+    .section-header { margin-bottom: 60px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-sub { margin: 0 auto; }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: calc(16.67% + 20px);
+      right: calc(16.67% + 20px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--red-mid), var(--red-mid));
+      background-size: 8px 2px;
+      background-repeat: repeat-x;
+    }
+    .step-card {
+      background: white;
+      border-radius: 20px;
+      padding: 36px 28px;
+      border: 1.5px solid #F0F0F0;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .step-card:hover {
+      border-color: var(--red-mid);
+      box-shadow: 0 8px 40px rgba(229,57,53,0.1);
+      transform: translateY(-4px);
+    }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--red);
+      color: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+    .step-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--gray-dark);
+      line-height: 1.7;
+    }
+    .step-tip {
+      margin-top: 16px;
+      background: var(--red-light);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--red-dark);
+      font-weight: 500;
+    }
+
+    /* ── WHY US ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .why-card {
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      border: 1.5px solid #F0F0F0;
+      display: flex;
+      gap: 24px;
+      transition: all 0.3s;
+    }
+    .why-card:hover {
+      border-color: var(--red-mid);
+      box-shadow: 0 8px 40px rgba(229,57,53,0.08);
+    }
+    .why-icon-box {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: var(--red-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .why-content h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .why-content p {
+      font-size: 14px;
+      color: var(--gray-dark);
+      line-height: 1.7;
+    }
+    .why-content .metric {
+      margin-top: 12px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--red);
+    }
+    .why-content .metric small {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray);
+    }
+
+    /* ── PRICE SECTION ── */
+    .price-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .price-table {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1.5px solid #F0F0F0;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+    }
+    .price-table thead {
+      background: var(--red);
+      color: white;
+    }
+    .price-table th, .price-table td {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .price-table th {
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .price-table tbody tr:nth-child(even) {
+      background: var(--gray-light);
+    }
+    .price-table td:last-child {
+      font-weight: 700;
+      color: var(--red);
+    }
+    .price-note {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: center;
+      padding: 12px 20px;
+      border-top: 1px solid #F0F0F0;
+    }
+    .price-cta-box {
+      padding: 8px;
+    }
+    .price-cta-box h3 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .price-cta-box p {
+      font-size: 15px;
+      color: var(--gray-dark);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .price-features { list-style: none; margin-bottom: 32px; }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 15px;
+      color: var(--dark);
+      border-bottom: 1px solid #F5F5F5;
+    }
+    .price-features li:last-child { border-bottom: none; }
+    .check {
+      width: 22px; height: 22px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #4CAF50;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── FRANCHISE ── */
+    .franchise-section {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .franchise-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(229,57,53,0.25) 0%, transparent 60%);
+    }
+    .franchise-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .franchise-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .franchise-stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .franchise-stat-card.highlight {
+      background: var(--red);
+      border-color: var(--red);
+      grid-column: span 2;
+    }
+    .fsc-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .fsc-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+    .fsc-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+    .franchise-stat-card.highlight .fsc-label { color: rgba(255,255,255,0.85); }
+
+    .franchise-steps { margin-top: 32px; }
+    .franchise-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .franchise-step:last-child { border-bottom: none; }
+    .fstep-num {
+      width: 32px; height: 32px;
+      background: var(--red);
+      color: white;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .fstep-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .fstep-content p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+    .franchise-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+    }
+    .btn-red {
+      background: var(--red);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-red:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-outline-white:hover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testi-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      border: 1.5px solid #F0F0F0;
+      transition: all 0.3s;
+    }
+    .testi-card:hover {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+    .testi-stars {
+      color: #FFC107;
+      font-size: 16px;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .testi-text {
+      font-size: 15px;
+      color: var(--gray-dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--red-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .testi-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .testi-role { font-size: 12px; color: var(--gray); }
+    .testi-tag {
+      margin-left: auto;
+      background: var(--red-light);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ── BRANCH LOCATOR ── */
+    .branch-section {
+      background: var(--red-light);
+    }
+    .branch-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .branch-search-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 40px rgba(229,57,53,0.12);
+    }
+    .branch-search-box h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+    .search-input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .search-input-wrap input {
+      width: 100%;
+      padding: 14px 50px 14px 18px;
+      border: 2px solid #EEEEEE;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .search-input-wrap input:focus {
+      border-color: var(--red);
+    }
+    .search-input-wrap .search-icon {
+      position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 18px;
+    }
+    .search-btn {
+      width: 100%;
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-btn:hover { background: var(--red-dark); }
+    .near-branches {
+      margin-top: 24px;
+    }
+    .near-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .branch-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red-light);
+      color: var(--red-dark);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      margin: 4px 4px 4px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .branch-chip:hover { background: var(--red-mid); color: white; }
+    .branch-chip .icon { font-size: 12px; }
+    .branch-map-placeholder {
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      height: 420px;
+      background: linear-gradient(135deg, #FAFAFA 0%, #F0F0F0 100%);
+      border: 1.5px solid #E8E8E8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .map-icon { font-size: 48px; }
+    .map-title { font-size: 18px; font-weight: 700; color: var(--dark); }
+    .map-sub { font-size: 14px; color: var(--gray); }
+    .map-dots {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+    .map-pin {
+      position: absolute;
+      width: 16px; height: 16px;
+      background: var(--red);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 2px 8px rgba(229,57,53,0.4);
+    }
+    .map-pin::after {
+      content: '';
+      width: 8px; height: 8px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    /* Random positions */
+    .mp1 { top: 25%; left: 30%; }
+    .mp2 { top: 40%; left: 55%; }
+    .mp3 { top: 60%; left: 40%; }
+    .mp4 { top: 20%; left: 70%; }
+    .mp5 { top: 70%; left: 65%; }
+    .mp6 { top: 50%; left: 20%; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--red) 0%, var(--red-deeper) 100%);
+      text-align: center;
+      padding: 96px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0,0,0,0.1) 0%, transparent 50%);
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .cta-section p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0D0D0D;
+      color: rgba(255,255,255,0.8);
+      padding: 64px 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo-text { color: white; }
+    .footer-brand .logo-text small { color: rgba(255,255,255,0.4); }
+    .footer-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
+    .footer-contacts .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+    }
+    .contact-item .ci-icon { font-size: 16px; }
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+    .footer-col ul li a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--red); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-powered {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+    .footer-powered a {
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0.7;
+    }
+    .footer-powered a:hover { opacity: 1; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .section { padding: 64px 20px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .steps-grid::before { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .price-comparison { grid-template-columns: 1fr; }
+      .franchise-inner { grid-template-columns: 1fr; gap: 48px; }
+      .franchise-section { padding: 64px 20px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .branch-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .carriers { padding: 16px 20px; }
+      .carriers-inner { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT -->
+  <div class="announce">
+    🎉 เปิดรับสมัคร <span>Franchise รอบใหม่</span> — ลงทุนต่ำ เปิดได้เร็ว คืนทุนภายใน 12 เดือน &nbsp;·&nbsp;
+    <a href="#franchise" style="color:#FFD54F;font-weight:700;">ดูรายละเอียด →</a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">ส่ง</div>
+      <div class="logo-text">
+        ส่งไว Express
+        <small>by All Express</small>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">วิธีส่ง</a></li>
+      <li><a href="#price">ราคา</a></li>
+      <li><a href="#branches">หาสาขา</a></li>
+      <li><a href="#franchise">เปิดแฟรนไชส์</a></li>
+      <li><a href="#contact" class="nav-cta">ติดต่อเรา</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          เปิดให้บริการทั่วไทย
+        </div>
+        <h1>ส่งพัสดุ<br><span class="accent">ง่าย ไว ราคาดี</span></h1>
+        <p>เลือกขนส่งที่ดีที่สุด ราคาถูกที่สุด ฝากได้ที่สาขาส่งไวใกล้บ้านคุณ ทุกวัน ไม่ต้องรอคนมารับ</p>
+        <div class="hero-actions">
+          <a href="#branches" class="btn-primary">
+            📍 หาสาขาใกล้ฉัน
+          </a>
+          <a href="#price" class="btn-secondary">
+            🔖 เช็คราคา
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">500+</div>
+            <div class="lbl">สาขาทั่วไทย</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="num">5+</div>
+            <div class="lbl">ขนส่งชั้นนำ</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="num">24 ชม</div>
+            <div class="lbl">ส่งถึงวันรุ่งขึ้น</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Card -->
+      <div class="hero-visual">
+        <div class="hero-card-stack">
+          <div class="hero-card">
+            <div class="hero-card-title">สถานะพัสดุล่าสุด</div>
+            <ul class="hero-track-list">
+              <li class="hero-track-item">
+                <span class="track-dot delivered"></span>
+                <div class="track-info">
+                  <div class="track-id">TH2603121234</div>
+                  <div class="track-dest">เชียงใหม่ → กรุงเทพฯ</div>
+                </div>
+                <span class="track-status delivered">จัดส่งแล้ว ✓</span>
+              </li>
+              <li class="hero-track-item">
+                <span class="track-dot transit"></span>
+                <div class="track-info">
+                  <div class="track-id">TH2603115678</div>
+                  <div class="track-dest">ขอนแก่น → ภูเก็ต</div>
+                </div>
+                <span class="track-status transit">กำลังส่ง</span>
+              </li>
+              <li class="hero-track-item">
+                <span class="track-dot pickup"></span>
+                <div class="track-info">
+                  <div class="track-id">TH2603119012</div>
+                  <div class="track-dest">นนทบุรี → เชียงราย</div>
+                </div>
+                <span class="track-status pickup">รับพัสดุแล้ว</span>
+              </li>
+              <li class="hero-track-item">
+                <span class="track-dot delivered"></span>
+                <div class="track-info">
+                  <div class="track-id">TH2603113456</div>
+                  <div class="track-dest">บางกอก → หาดใหญ่</div>
+                </div>
+                <span class="track-status delivered">จัดส่งแล้ว ✓</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Floating cards -->
+          <div class="hero-float f1">
+            <div class="float-label">ราคาเริ่มต้นเพียง</div>
+            <div class="float-value">฿29 <span>/ ชิ้น</span></div>
+          </div>
+          <div class="hero-float f2">
+            <div class="float-label">รับฝากทุกวัน</div>
+            <div class="float-value">08:00 <span>– 21:00 น.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARRIERS -->
+  <div class="carriers">
+    <div class="carriers-inner">
+      <span class="carriers-label">ขนส่งพาร์ทเนอร์</span>
+      <div class="carriers-divider"></div>
+      <div class="carriers-list">
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#FF6B00;"></span>Flash Express</div>
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#009B4D;"></span>Kerry</div>
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#F44336;"></span>J&T Express</div>
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#D32F2F;"></span>Thailand Post</div>
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#1565C0;"></span>Ninja Van</div>
+        <div class="carrier-pill"><span class="carrier-dot" style="background:#6A1B9A;"></span>Best Express</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">วิธีใช้งาน</div>
+        <h2 class="section-title">ส่งพัสดุกับส่งไว<br>แค่ 3 ขั้นตอน</h2>
+        <p class="section-sub">ง่ายและรวดเร็ว ไม่ต้องรอ ไม่ต้องนัด เดินเข้าสาขา ฝากได้เลย</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card fade-up">
+          <div class="step-num">1</div>
+          <div class="step-icon">📦</div>
+          <div class="step-title">แพ็คพัสดุ</div>
+          <p class="step-desc">แพ็คพัสดุให้เรียบร้อย เขียนที่อยู่ผู้รับให้ชัดเจน หรือจะพิมพ์ label ล่วงหน้าจาก app ก็ได้</p>
+          <div class="step-tip">💡 ยังไม่มีกล่อง? ซื้อที่สาขาได้เลย ราคาย่อมเยาว์</div>
+        </div>
+        <div class="step-card fade-up delay-1">
+          <div class="step-num">2</div>
+          <div class="step-icon">🏪</div>
+          <div class="step-title">มาที่สาขา</div>
+          <p class="step-desc">เดินเข้าสาขาส่งไวใกล้บ้าน พนักงานจะชั่งน้ำหนัก วัดขนาด และแนะนำขนส่งที่ดีที่สุดสำหรับคุณ</p>
+          <div class="step-tip">📍 มีสาขามากกว่า 500 จุดทั่วไทย</div>
+        </div>
+        <div class="step-card fade-up delay-2">
+          <div class="step-num">3</div>
+          <div class="step-icon">✅</div>
+          <div class="step-title">รับใบเสร็จ + ติดตาม</div>
+          <p class="step-desc">จ่ายเงิน รับใบเสร็จพร้อมหมายเลขพัสดุ ติดตามสถานะได้ทันทีผ่าน LINE หรือเว็บ</p>
+          <div class="step-tip">📱 รับ notification ทุกขั้นตอนอัตโนมัติ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="section bg-gray" id="why">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">ทำไมต้องส่งไว</div>
+        <h2 class="section-title">ดีกว่า ง่ายกว่า<br>ทุกสาขาใกล้คุณ</h2>
+        <p class="section-sub">เราคัดเฉพาะขนส่งที่ดีที่สุดมาให้คุณเปรียบเทียบ ในราคาที่ถูกกว่าและบริการที่ดีกว่า</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-icon-box">💰</div>
+          <div class="why-content">
+            <h3>ราคาดีที่สุดในตลาด</h3>
+            <p>เราต่อรองราคาพิเศษกับขนส่งชั้นนำโดยตรง ลูกค้าส่งไวจึงได้ราคาต่ำกว่าส่งเองถึงประตู</p>
+            <div class="metric">ประหยัด 15–30% <small>เทียบกับส่งตรง</small></div>
+          </div>
+        </div>
+        <div class="why-card fade-up delay-1">
+          <div class="why-icon-box">📍</div>
+          <div class="why-content">
+            <h3>สาขาใกล้บ้านทั่วไทย</h3>
+            <p>เครือข่ายสาขามากกว่า 500 จุดทั่วประเทศ รับพัสดุทุกวันตั้งแต่เช้าถึงทุ่ม</p>
+            <div class="metric">500+ <small>จุดรับฝาก</small></div>
+          </div>
+        </div>
+        <div class="why-card fade-up delay-2">
+          <div class="why-icon-box">🔀</div>
+          <div class="why-content">
+            <h3>เลือกขนส่งได้เอง</h3>
+            <p>เปรียบเทียบราคาและเวลาจัดส่งของทุกขนส่งแบบ real-time แล้วเลือกที่ตรงใจ</p>
+            <div class="metric">6+ <small>ขนส่งพาร์ทเนอร์</small></div>
+          </div>
+        </div>
+        <div class="why-card fade-up delay-3">
+          <div class="why-icon-box">📲</div>
+          <div class="why-content">
+            <h3>ติดตามได้ทุกที่</h3>
+            <p>รับ notification อัปเดตสถานะพัสดุผ่าน LINE ทุกขั้นตอน ไม่ต้องกังวลว่าของจะหาย</p>
+            <div class="metric">Real-time <small>tracking</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE -->
+  <section class="section" id="price">
+    <div class="section-inner">
+      <div class="price-comparison">
+        <div class="price-cta-box fade-up">
+          <div class="section-tag">ตารางราคา</div>
+          <h3>ราคาใส ไม่มีซ่อน<br>จ่ายจริงเท่าที่เห็น</h3>
+          <p>ราคาเริ่มต้นต่ำสุดในตลาด คำนวณตามน้ำหนักและระยะทาง ไม่มีค่าธรรมเนียมแอบแฝง</p>
+          <ul class="price-features">
+            <li><span class="check">✓</span> ราคาชัดเจน ก่อนกดยืนยัน</li>
+            <li><span class="check">✓</span> เลือกขนส่งเองได้ตามต้องการ</li>
+            <li><span class="check">✓</span> COD รับเงินเร็ว 1–2 วันทำการ</li>
+            <li><span class="check">✓</span> ส่วนลดพิเศษสำหรับผู้ส่งบ่อย</li>
+            <li><span class="check">✓</span> ใบเสร็จทุกครั้งรับได้จากสาขา</li>
+          </ul>
+          <a href="#branches" class="btn-red">หาสาขาใกล้ฉัน →</a>
+        </div>
+        <div class="fade-up delay-1">
+          <div class="price-table">
+            <table style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr>
+                  <th>น้ำหนัก</th>
+                  <th>ราคาเริ่มต้น</th>
+                  <th>เร่งด่วน</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ไม่เกิน 0.5 กก.</td>
+                  <td>฿29</td>
+                  <td>฿49</td>
+                </tr>
+                <tr>
+                  <td>0.5 – 1 กก.</td>
+                  <td>฿39</td>
+                  <td>฿65</td>
+                </tr>
+                <tr>
+                  <td>1 – 2 กก.</td>
+                  <td>฿49</td>
+                  <td>฿89</td>
+                </tr>
+                <tr>
+                  <td>2 – 5 กก.</td>
+                  <td>฿79</td>
+                  <td>฿129</td>
+                </tr>
+                <tr>
+                  <td>5 – 10 กก.</td>
+                  <td>฿129</td>
+                  <td>฿199</td>
+                </tr>
+                <tr>
+                  <td>10 – 20 กก.</td>
+                  <td>฿199</td>
+                  <td>฿299</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="price-note">ราคาอาจแตกต่างตามปลายทาง · อัปเดต มีนาคม 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANCH LOCATOR -->
+  <section class="section branch-section" id="branches">
+    <div class="branch-inner">
+      <div class="fade-up">
+        <div class="section-tag">หาสาขา</div>
+        <h2 class="section-title">ส่งไวใกล้คุณ<br>มีทุกที่</h2>
+        <p class="section-sub" style="margin-bottom:32px;">ค้นหาสาขาส่งไวใกล้คุณ รับฝากพัสดุทุกวัน 08:00 – 21:00 น.</p>
+        <div class="branch-search-box">
+          <h3>🔍 ค้นหาสาขา</h3>
+          <div class="search-input-wrap">
+            <input type="text" placeholder="พิมพ์ชื่อย่าน เช่น สาทร, อารีย์, นิมมาน...">
+            <span class="search-icon">🔍</span>
+          </div>
+          <button class="search-btn">ค้นหาสาขาใกล้ฉัน</button>
+          <div class="near-branches">
+            <div class="near-label">ย่านยอดนิยม</div>
+            <span class="branch-chip"><span class="icon">📍</span>สาทร</span>
+            <span class="branch-chip"><span class="icon">📍</span>อารีย์</span>
+            <span class="branch-chip"><span class="icon">📍</span>ลาดพร้าว</span>
+            <span class="branch-chip"><span class="icon">📍</span>นิมมาน</span>
+            <span class="branch-chip"><span class="icon">📍</span>สีลม</span>
+            <span class="branch-chip"><span class="icon">📍</span>บางนา</span>
+            <span class="branch-chip"><span class="icon">📍</span>ปิ่นเกล้า</span>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up delay-1">
+        <div class="branch-map-placeholder">
+          <div class="map-dots">
+            <div class="map-pin mp1"></div>
+            <div class="map-pin mp2"></div>
+            <div class="map-pin mp3"></div>
+            <div class="map-pin mp4"></div>
+            <div class="map-pin mp5"></div>
+            <div class="map-pin mp6"></div>
+          </div>
+          <div class="map-icon">🗺️</div>
+          <div class="map-title">แผนที่สาขาส่งไว</div>
+          <div class="map-sub">500+ จุดรับฝากทั่วประเทศ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BRANCH SHOWCASE ── -->
+  <section class="section" id="branch-look" style="background:var(--gray-light);">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">ตัวอย่างสาขา</div>
+        <h2 class="section-title">ส่งไว Shop<br>หน้าตาเป็นแบบนี้</h2>
+        <p class="section-sub">ทุกสาขามีมาตรฐานเดียวกัน สะอาด น่าเชื่อถือ เปิดรับทุกวัน ลูกค้าไว้ใจได้ทุกจุด</p>
+      </div>
+
+      <!-- Main Branch Showcase -->
+      <div class="branch-showcase-wrap fade-up">
+        <!-- CSS Storefront Illustration -->
+        <div class="sf-outer">
+          <!-- Hanging Sign -->
+          <div class="sf-hang-wrap">
+            <div class="sf-hang-wire"></div>
+            <div class="sf-hang-board">OPEN</div>
+          </div>
+          <div class="sf-building">
+            <!-- Awning -->
+            <div class="sf-awning">
+              <div class="awning-stripe s1"></div>
+              <div class="awning-stripe s2"></div>
+              <div class="awning-stripe s3"></div>
+              <div class="awning-stripe s4"></div>
+              <div class="awning-stripe s5"></div>
+              <div class="awning-stripe s6"></div>
+              <div class="awning-front"></div>
+            </div>
+            <!-- Signboard -->
+            <div class="sf-signboard">
+              <div class="sf-sign-logo">
+                <span class="sf-logo-box">ส่ง</span>
+                <div class="sf-logo-txt">
+                  <strong>ส่งไว Express</strong>
+                  <span>รับฝากพัสดุ · Drop-Off Center</span>
+                </div>
+              </div>
+              <div class="sf-sign-carriers">Flash · Kerry · J&T · ไปรษณีย์ · Ninja Van</div>
+            </div>
+            <!-- Shop Front -->
+            <div class="sf-front-body">
+              <!-- Left Window -->
+              <div class="sf-window">
+                <div class="sf-window-glass">
+                  <div class="sf-pkg-display">
+                    <div class="sf-pkg pk1"></div>
+                    <div class="sf-pkg pk2"></div>
+                    <div class="sf-pkg pk3"></div>
+                  </div>
+                  <div class="sf-promo-sticker">ราคาเริ่ม<br><strong>฿29</strong></div>
+                </div>
+                <div class="sf-window-sill"></div>
+              </div>
+              <!-- Door -->
+              <div class="sf-door-wrap">
+                <div class="sf-door-frame">
+                  <div class="sf-door-upper">
+                    <div class="sf-door-glass">
+                      <div class="sf-open-badge">🟢 OPEN</div>
+                    </div>
+                  </div>
+                  <div class="sf-door-lower">
+                    <div class="sf-door-handle">◉</div>
+                  </div>
+                </div>
+                <div class="sf-door-step"></div>
+              </div>
+              <!-- Right Window -->
+              <div class="sf-window">
+                <div class="sf-window-glass">
+                  <div class="sf-hours-poster">
+                    <div class="sf-hp-title">⏰ เวลาทำการ</div>
+                    <div class="sf-hp-row"><span>จ–ศ</span><span>08:00–20:00</span></div>
+                    <div class="sf-hp-row"><span>ส–อา</span><span>09:00–18:00</span></div>
+                    <div class="sf-hp-divider"></div>
+                    <div class="sf-hp-title" style="font-size:10px;">📱 LINE: @songwai</div>
+                  </div>
+                </div>
+                <div class="sf-window-sill"></div>
+              </div>
+            </div>
+            <!-- Floor -->
+            <div class="sf-floor-wrap">
+              <div class="sf-floor-text">ส่งไว Express · Drop-Off Center</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch Profile Card -->
+        <div class="branch-profile fade-up delay-1">
+          <div class="bp-top">
+            <div class="bp-badge">📍 สาขาตัวอย่าง</div>
+            <div class="bp-rating">⭐ 4.8 <span>(128 รีวิว)</span></div>
+          </div>
+          <h3 class="bp-name">ส่งไว ลาดพร้าว 71</h3>
+          <div class="bp-addr">ลาดพร้าว 71 แยก 3 · กรุงเทพฯ 10230</div>
+          <div class="bp-status">
+            <span class="bp-open">🟢 เปิดอยู่ตอนนี้</span>
+            <span class="bp-close">ปิด 20:00 น.</span>
+          </div>
+          <div class="bp-divider"></div>
+          <div class="bp-section-title">บริการในสาขา</div>
+          <div class="bp-services">
+            <div class="bp-service">📦 รับฝากพัสดุทุกขนส่ง</div>
+            <div class="bp-service">⚖️ ชั่งน้ำหนัก · วัดขนาด</div>
+            <div class="bp-service">🖨️ พิมพ์ใบปะหน้าฟรี</div>
+            <div class="bp-service">📦 ขายกล่อง · บับเบิ้ล</div>
+            <div class="bp-service">💳 เงินสด · QR · บัตร</div>
+            <div class="bp-service">💰 รับบริการ COD</div>
+            <div class="bp-service">📸 ถ่ายรูปยืนยัน</div>
+            <div class="bp-service">📲 แจ้ง tracking ทาง LINE</div>
+          </div>
+          <div class="bp-divider"></div>
+          <div class="bp-section-title">ขนส่งที่รับฝาก</div>
+          <div class="bp-chips">
+            <span class="bp-chip" style="color:#FF6B00;">⚡ Flash</span>
+            <span class="bp-chip" style="color:#009B4D;">🟢 Kerry</span>
+            <span class="bp-chip" style="color:#F44336;">🔴 J&T</span>
+            <span class="bp-chip" style="color:#c62828;">📮 ไปรษณีย์</span>
+            <span class="bp-chip" style="color:#6A1B9A;">🟣 Ninja Van</span>
+          </div>
+          <a href="#branches" class="bp-cta">📍 หาสาขาใกล้ฉัน</a>
+        </div>
+      </div>
+
+      <!-- Branch Types -->
+      <div class="btype-grid fade-up delay-2">
+        <div class="btype-card">
+          <div class="btype-icon-wrap">🏪</div>
+          <div class="btype-info">
+            <div class="btype-name">สาขาชุมชน</div>
+            <p>ห้องแถว / โฮมออฟฟิศในย่านบ้านเรือน เน้นความสะดวกใกล้บ้าน</p>
+            <div class="btype-specs">
+              <span>📐 10–20 ตร.ม.</span>
+              <span>👥 Walk-in</span>
+              <span>💰 ฿80K–100K</span>
+            </div>
+          </div>
+        </div>
+        <div class="btype-card btype-hot">
+          <div class="btype-hot-label">🔥 ยอดนิยม</div>
+          <div class="btype-icon-wrap">🏬</div>
+          <div class="btype-info">
+            <div class="btype-name">สาขาตลาด / โซนการค้า</div>
+            <p>ติดตลาดสด ตลาดนัด หรือย่านค้าขาย ปริมาณลูกค้าสูงสุด</p>
+            <div class="btype-specs">
+              <span>📐 15–40 ตร.ม.</span>
+              <span>👥 High Volume</span>
+              <span>💰 ฿100K–150K</span>
+            </div>
+          </div>
+        </div>
+        <div class="btype-card">
+          <div class="btype-icon-wrap">🏢</div>
+          <div class="btype-info">
+            <div class="btype-name">สาขาออฟฟิศ / คอนโด</div>
+            <p>ในอาคารสำนักงานหรือที่พักอาศัย ลูกค้าประจำสูง รายได้มั่นคง</p>
+            <div class="btype-specs">
+              <span>📐 8–15 ตร.ม.</span>
+              <span>👥 Captive audience</span>
+              <span>💰 ฿80K–120K</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ONLINE SELLERS ── -->
+  <section class="section" id="sellers">
+    <div class="section-inner">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+        <div class="fade-up">
+          <div class="section-tag">สำหรับพ่อค้าแม่ค้าออนไลน์</div>
+          <h2 class="section-title">ขายออนไลน์ ส่งกับส่งไว<br>ถูกกว่า เร็วกว่า</h2>
+          <p class="section-sub" style="margin-bottom:28px;">ไม่ต้องรอขนส่งมารับถึงบ้าน ฝากสาขาส่งไวใกล้คุณ รับส่วนลดพิเศษเมื่อส่งมากกว่า 10 ชิ้น/วัน</p>
+          <div class="seller-perks">
+            <div class="seller-perk">
+              <div class="sp-icon">💰</div>
+              <div>
+                <strong>ราคาพิเศษสำหรับ Volume</strong>
+                <p>ส่ง 10+ ชิ้น/วัน ได้ราคา bulk rate ทันที</p>
+              </div>
+            </div>
+            <div class="seller-perk">
+              <div class="sp-icon">💳</div>
+              <div>
+                <strong>COD รับเงินใน 1–2 วัน</strong>
+                <p>เงิน COD โอนเข้าบัญชีรวดเร็ว ไม่ต้องรอ</p>
+              </div>
+            </div>
+            <div class="seller-perk">
+              <div class="sp-icon">📊</div>
+              <div>
+                <strong>Dashboard สรุปยอดส่ง</strong>
+                <p>ดูสถิติ ค่าใช้จ่าย และ tracking ทุกชิ้นในที่เดียว</p>
+              </div>
+            </div>
+            <div class="seller-perk">
+              <div class="sp-icon">🛒</div>
+              <div>
+                <strong>ต่อกับ Shopee · Lazada · TikTok</strong>
+                <p>sync order อัตโนมัติ ไม่ต้องกรอกซ้ำ</p>
+              </div>
+            </div>
+          </div>
+          <a href="#contact" class="btn-red" style="margin-top:8px;">สมัคร Seller Account ฟรี →</a>
+        </div>
+        <div class="fade-up delay-1">
+          <div class="seller-stats-card">
+            <div class="ssc-header">
+              <div class="ssc-label">ตัวอย่างผลประหยัด</div>
+              <div class="ssc-sub">ร้านค้าออนไลน์ที่ส่ง 30 ชิ้น/วัน</div>
+            </div>
+            <div class="ssc-row">
+              <span>ค่าส่งปกติ (เฉลี่ย)</span>
+              <span class="ssc-val-bad">฿65 / ชิ้น</span>
+            </div>
+            <div class="ssc-row">
+              <span>ค่าส่งกับส่งไว (volume)</span>
+              <span class="ssc-val-good">฿47 / ชิ้น</span>
+            </div>
+            <div class="ssc-divider"></div>
+            <div class="ssc-row">
+              <span>ประหยัดต่อชิ้น</span>
+              <span class="ssc-saving">฿18</span>
+            </div>
+            <div class="ssc-row">
+              <span>30 ชิ้น × ฿18 × 26 วัน</span>
+              <span class="ssc-saving">฿14,040 / เดือน</span>
+            </div>
+            <div class="ssc-highlight">
+              ประหยัดได้กว่า<br>
+              <strong>฿168,000</strong>
+              <span>ต่อปี</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TRACKING ── -->
+  <section class="section bg-gray" id="tracking">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">ติดตามพัสดุ</div>
+        <h2 class="section-title">รู้ทุกขั้นตอน<br>แบบ Real-Time</h2>
+        <p class="section-sub">ฝากพัสดุแล้ว รับ SMS + LINE แจ้งทันที ติดตามได้ตลอด 24 ชั่วโมง</p>
+      </div>
+      <div class="track-demo-wrap fade-up">
+        <div class="track-input-demo">
+          <div class="track-label">🔍 ติดตามพัสดุของคุณ</div>
+          <div class="track-input-row">
+            <input type="text" class="track-input" placeholder="กรอกหมายเลขพัสดุ เช่น TH26031200001" readonly>
+            <button class="track-btn">ตรวจสอบ</button>
+          </div>
+          <div class="track-or">หรือรับแจ้งเตือนอัตโนมัติผ่าน LINE ทุกครั้งที่สถานะเปลี่ยน</div>
+          <a href="#" class="track-line-btn">💬 เพิ่มเพื่อน LINE @songwai</a>
+        </div>
+        <div class="track-timeline">
+          <div class="tt-item tt-done">
+            <div class="tt-dot done"></div>
+            <div class="tt-content">
+              <div class="tt-title">✅ รับพัสดุที่สาขา</div>
+              <div class="tt-time">12 มี.ค. 2026 · 10:23 น.</div>
+              <div class="tt-loc">ส่งไว ลาดพร้าว 71</div>
+            </div>
+          </div>
+          <div class="tt-line done-line"></div>
+          <div class="tt-item tt-done">
+            <div class="tt-dot done"></div>
+            <div class="tt-content">
+              <div class="tt-title">✅ ส่งมอบให้ขนส่ง Flash</div>
+              <div class="tt-time">12 มี.ค. 2026 · 14:10 น.</div>
+              <div class="tt-loc">ศูนย์คัดแยก กรุงเทพฯ</div>
+            </div>
+          </div>
+          <div class="tt-line done-line"></div>
+          <div class="tt-item tt-active">
+            <div class="tt-dot active"></div>
+            <div class="tt-content">
+              <div class="tt-title">🚚 กำลังจัดส่ง</div>
+              <div class="tt-time">13 มี.ค. 2026 · 08:45 น.</div>
+              <div class="tt-loc">กำลังออกจากฮับ เชียงใหม่</div>
+            </div>
+          </div>
+          <div class="tt-line"></div>
+          <div class="tt-item tt-pending">
+            <div class="tt-dot pending"></div>
+            <div class="tt-content">
+              <div class="tt-title">📦 จัดส่งถึงปลายทาง</div>
+              <div class="tt-time">คาดการณ์ · 13 มี.ค. 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">รีวิว</div>
+        <h2 class="section-title">ลูกค้าบอกว่าอะไร</h2>
+        <p class="section-sub">ความคิดเห็นจริงจากผู้ใช้บริการทั่วไทย</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card fade-up">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"ราคาถูกกว่าที่ไปรษณีย์มาก พนักงานน่ารัก สาขาใกล้บ้าน จะมาใช้ประจำแน่นอน"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👩</div>
+            <div>
+              <div class="testi-name">คุณมาลี</div>
+              <div class="testi-role">ลูกค้าทั่วไป · กรุงเทพฯ</div>
+            </div>
+            <span class="testi-tag">ลูกค้า</span>
+          </div>
+        </div>
+        <div class="testi-card fade-up delay-1">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"ขายของออนไลน์ ส่งวันละหลายชิ้น ราคาดีมาก COD ได้เงินเร็ว ของหน้าบ้านไม่ต้องรอขนส่งมารับ"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👨</div>
+            <div>
+              <div class="testi-name">คุณวิน</div>
+              <div class="testi-role">เจ้าของร้านค้าออนไลน์ · เชียงใหม่</div>
+            </div>
+            <span class="testi-tag">พ่อค้า</span>
+          </div>
+        </div>
+        <div class="testi-card fade-up delay-2">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"ติดตามพัสดุได้ผ่าน LINE สะดวกมาก ไม่ต้องเข้าเว็บแต่ละขนส่ง รู้สถานะทันทีเลย"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👩</div>
+            <div>
+              <div class="testi-name">คุณฝ้าย</div>
+              <div class="testi-role">ลูกค้าทั่วไป · ขอนแก่น</div>
+            </div>
+            <span class="testi-tag">ลูกค้า</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRANCHISE -->
+  <section class="section franchise-section" id="franchise">
+    <div class="franchise-inner">
+      <div>
+        <div class="section-tag light">สำหรับผู้ประกอบการ</div>
+        <h2 class="section-title light">เปิดสาขาส่งไว<br>กับเรา</h2>
+        <p class="section-sub light" style="margin-bottom:0;">ธุรกิจที่ตลาดต้องการ ลงทุนน้อย กำไรดี ระบบหลังบ้านพร้อมให้คุณแค่เปิดประตูรับลูกค้า</p>
+        <div class="franchise-steps">
+          <div class="franchise-step">
+            <div class="fstep-num">1</div>
+            <div class="fstep-content">
+              <h4>ยื่นใบสมัคร</h4>
+              <p>กรอกฟอร์มออนไลน์ แนบเอกสาร ทีมงานติดต่อกลับภายใน 48 ชั่วโมง</p>
+            </div>
+          </div>
+          <div class="franchise-step">
+            <div class="fstep-num">2</div>
+            <div class="fstep-content">
+              <h4>เจรจาและเลือกพื้นที่</h4>
+              <p>ทีมงานช่วยวิเคราะห์ทำเล ตรวจสอบศักยภาพก่อนตัดสินใจ</p>
+            </div>
+          </div>
+          <div class="franchise-step">
+            <div class="fstep-num">3</div>
+            <div class="fstep-content">
+              <h4>เซ็นสัญญา + อบรม</h4>
+              <p>เซ็นสัญญาแฟรนไชส์ รับการอบรม 3 วัน พร้อมอุปกรณ์ครบชุด</p>
+            </div>
+          </div>
+          <div class="franchise-step">
+            <div class="fstep-num">4</div>
+            <div class="fstep-content">
+              <h4>เปิดสาขา เริ่มรับรายได้</h4>
+              <p>พร้อมรับลูกค้าได้เลย ระบบหลังบ้านครบ รายได้เริ่มตั้งแต่วันแรก</p>
+            </div>
+          </div>
+        </div>
+        <div class="franchise-cta">
+          <a href="#contact" class="btn-red">📋 สมัครแฟรนไชส์</a>
+          <a href="#" class="btn-outline-white">ดูรายละเอียดเพิ่ม</a>
+        </div>
+      </div>
+
+      <div class="franchise-cards fade-up">
+        <div class="franchise-stat-card highlight">
+          <div class="fsc-value">฿80,000–฿150,000</div>
+          <div class="fsc-label">เงินลงทุนเริ่มต้น (รวมอุปกรณ์ + ค่าแฟรนไชส์)</div>
+          <div class="fsc-sub">ไม่รวมค่าเช่าพื้นที่</div>
+        </div>
+        <div class="franchise-stat-card">
+          <div class="fsc-value">12 เดือน</div>
+          <div class="fsc-label">คืนทุนเฉลี่ย</div>
+          <div class="fsc-sub">ขึ้นอยู่กับทำเล</div>
+        </div>
+        <div class="franchise-stat-card">
+          <div class="fsc-value">฿25–50K</div>
+          <div class="fsc-label">รายได้ต่อเดือน</div>
+          <div class="fsc-sub">ค่าคอมมิชชั่นต่อพัสดุ</div>
+        </div>
+        <div class="franchise-stat-card">
+          <div class="fsc-value">10 ตร.ม.</div>
+          <div class="fsc-label">พื้นที่ขั้นต่ำ</div>
+          <div class="fsc-sub">ห้องแถว / โฮมออฟฟิศ</div>
+        </div>
+        <div class="franchise-stat-card">
+          <div class="fsc-value">24/7</div>
+          <div class="fsc-label">ระบบ support</div>
+          <div class="fsc-sub">ทีมช่วยเหลือตลอด</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section bg-gray" id="faq">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">FAQ</div>
+        <h2 class="section-title">คำถามที่พบบ่อย</h2>
+      </div>
+      <div class="faq-list fade-up">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>ต้องนำพัสดุมาในกล่องหรือไม่?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            ไม่จำเป็นครับ — ถ้ายังไม่มีกล่อง สามารถซื้อได้ที่สาขาส่งไว มีทุกขนาด ราคาเริ่มต้น ฿5 พร้อมบับเบิ้ลและเทปกาว
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>พัสดุจะถึงปลายทางกี่วัน?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            ขึ้นอยู่กับขนส่งที่เลือกและปลายทาง โดยทั่วไป: ในกรุงเทพฯ 1–2 วัน · ต่างจังหวัด 1–3 วัน · เกาะ/ห่างไกล 3–5 วัน หากต้องการด่วน เลือกบริการ Express ได้เลย
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>ถ้าพัสดุสูญหายหรือเสียหาย จะได้รับการชดเชยหรือไม่?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            การชดเชยเป็นไปตามนโยบายของขนส่งแต่ละเจ้า แนะนำให้ซื้อประกันพัสดุสำหรับสินค้ามีค่าสูง ทีมสาขาจะช่วยดำเนินการเคลมให้ครับ
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>COD ทำงานอย่างไร และรับเงินเมื่อไหร่?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            เมื่อผู้รับชำระเงินกับพนักงานขนส่ง ยอด COD จะโอนเข้าบัญชีของคุณภายใน 1–2 วันทำการ ผ่านระบบ All Wallet หรือโอนเงินธนาคารตามที่ตกลงไว้
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>สามารถส่งพัสดุระหว่างประเทศได้หรือไม่?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            ปัจจุบันส่งไวให้บริการภายในประเทศไทยเป็นหลัก สำหรับการส่งต่างประเทศ กรุณาติดต่อทีมงานเพื่อประเมินราคาและเงื่อนไขเพิ่มเติม
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>การสมัครแฟรนไชส์ใช้เงินลงทุนเท่าไหร่?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            เงินลงทุนเริ่มต้น ฿80,000–฿150,000 รวมค่าแฟรนไชส์ อุปกรณ์ POS ป้ายร้าน และการอบรม ไม่รวมค่าเช่าพื้นที่ คืนทุนเฉลี่ยภายใน 12 เดือน ขึ้นอยู่กับทำเลและจำนวนลูกค้า
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-inner">
+      <div class="section-tag light" style="margin-bottom:20px;">เริ่มต้นวันนี้</div>
+      <h2>พร้อมส่งพัสดุกับส่งไวหรือยัง?</h2>
+      <p>หาสาขาใกล้บ้าน หรือสอบถามเปิดแฟรนไชส์ ทีมงานพร้อมดูแลคุณทุกขั้นตอน</p>
+      <div class="cta-buttons">
+        <a href="#branches" class="btn-primary">📍 หาสาขาใกล้ฉัน</a>
+        <a href="https://lin.ee/songwai-express" class="btn-secondary">💬 LINE: @songwai</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:0;">
+            <div class="logo-icon">ส่ง</div>
+            <div class="logo-text">
+              ส่งไว Express
+              <small>by All Express</small>
+            </div>
+          </div>
+          <p class="footer-tagline">บริการรับฝากพัสดุ Drop-Off ใกล้บ้านคุณ<br>ราคาดี เร็ว เชื่อถือได้ ทั่วประเทศไทย</p>
+          <div class="footer-contacts">
+            <div class="contact-item"><span class="ci-icon">📞</span> 02-XXX-XXXX</div>
+            <div class="contact-item"><span class="ci-icon">💬</span> LINE: @songwai</div>
+            <div class="contact-item"><span class="ci-icon">✉️</span> hello@songwai.express</div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>บริการ</h4>
+          <ul>
+            <li><a href="#">ส่งพัสดุ</a></li>
+            <li><a href="#">เช็คราคา</a></li>
+            <li><a href="#">ติดตามพัสดุ</a></li>
+            <li><a href="#">บริการ COD</a></li>
+            <li><a href="#">ส่งแบบประหยัด</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>แฟรนไชส์</h4>
+          <ul>
+            <li><a href="#">ทำไมต้องส่งไว</a></li>
+            <li><a href="#">ค่าแฟรนไชส์</a></li>
+            <li><a href="#">ขั้นตอนสมัคร</a></li>
+            <li><a href="#">สาขาตัวอย่าง</a></li>
+            <li><a href="#">ติดต่อทีม B2B</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>บริษัท</h4>
+          <ul>
+            <li><a href="#">เกี่ยวกับเรา</a></li>
+            <li><a href="#">ข่าวสาร</a></li>
+            <li><a href="https://allexpress.ltd" target="_blank">All Express (B2B)</a></li>
+            <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+            <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 ส่งไว Express · All rights reserved · songwai.express</div>
+        <div class="footer-powered">Platform by <a href="https://allexpress.ltd">All Express</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    /* ── BRANCH SHOWCASE ── */
+    .branch-showcase-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 56px;
+    }
+    /* Storefront */
+    .sf-outer { position: relative; }
+    .sf-hang-wrap {
+      position: absolute;
+      top: -42px; left: 32px;
+      display: flex; flex-direction: column; align-items: center;
+      z-index: 5;
+    }
+    .sf-hang-wire {
+      width: 1px; height: 18px;
+      background: #999;
+    }
+    .sf-hang-board {
+      background: var(--red);
+      color: white;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 2px;
+      padding: 5px 12px;
+      border-radius: 5px;
+      transform: rotate(-3deg);
+    }
+    .sf-building {
+      border-radius: 16px 16px 12px 12px;
+      overflow: hidden;
+      border: 2px solid #DDD;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+      background: white;
+    }
+    /* Awning */
+    .sf-awning {
+      display: flex;
+      height: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+    .awning-stripe {
+      flex: 1;
+    }
+    .awning-stripe.s1,.awning-stripe.s3,.awning-stripe.s5 { background: var(--red); }
+    .awning-stripe.s2,.awning-stripe.s4,.awning-stripe.s6 { background: white; }
+    .awning-front {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 8px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.12), transparent);
+    }
+    /* Signboard */
+    .sf-signboard {
+      background: linear-gradient(135deg, var(--red-deeper), var(--red));
+      padding: 18px 24px;
+      border-bottom: 3px solid var(--red-dark);
+    }
+    .sf-sign-logo {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .sf-logo-box {
+      width: 40px; height: 40px;
+      background: white;
+      color: var(--red);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900;
+      flex-shrink: 0;
+    }
+    .sf-logo-txt strong {
+      display: block;
+      font-size: 18px; font-weight: 800;
+      color: white;
+    }
+    .sf-logo-txt span {
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+    }
+    .sf-sign-carriers {
+      font-size: 11px;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.5px;
+    }
+    /* Shop front body */
+    .sf-front-body {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      background: #E8E8E8;
+      min-height: 160px;
+    }
+    .sf-window { background: #F5F5F5; }
+    .sf-window-glass {
+      background: linear-gradient(180deg, #e3f2fd 0%, #f9fbe7 100%);
+      margin: 12px;
+      border-radius: 8px;
+      border: 2px solid #CFD8DC;
+      min-height: 120px;
+      padding: 12px 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sf-pkg-display {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .sf-pkg {
+      border-radius: 4px;
+    }
+    .pk1 { width:28px; height:28px; background:#1976D2; }
+    .pk2 { width:22px; height:32px; background:#F57C00; margin-top:4px; }
+    .pk3 { width:26px; height:24px; background:#388E3C; margin-top:8px; }
+    .sf-promo-sticker {
+      position: absolute;
+      bottom: 6px; left: 50%; transform: translateX(-50%);
+      background: #FFD54F;
+      color: #333;
+      font-size: 9px; font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .sf-promo-sticker strong { font-size: 13px; display: block; }
+    .sf-hours-poster {
+      padding: 4px;
+    }
+    .sf-hp-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .sf-hp-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .sf-hp-divider { height: 1px; background: #E0E0E0; margin: 6px 0; }
+    .sf-window-sill {
+      height: 8px;
+      background: #BDBDBD;
+      margin: 0 6px;
+      border-radius: 2px 2px 0 0;
+    }
+    /* Door */
+    .sf-door-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 8px;
+    }
+    .sf-door-frame {
+      width: 56px;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      border: 2px solid #9E9E9E;
+    }
+    .sf-door-upper {
+      height: 70px;
+      background: linear-gradient(135deg, #B3E5FC, #E1F5FE);
+      padding: 8px;
+    }
+    .sf-door-glass {
+      width: 100%; height: 100%;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sf-open-badge {
+      font-size: 7px; font-weight: 800;
+      color: #2E7D32;
+      background: #E8F5E9;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .sf-door-lower {
+      height: 54px;
+      background: #EEEEEE;
+      border-top: 2px solid #9E9E9E;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 8px;
+    }
+    .sf-door-handle { font-size: 12px; color: #795548; }
+    .sf-door-step {
+      width: 68px; height: 8px;
+      background: #BDBDBD;
+      border-radius: 0 0 4px 4px;
+    }
+    /* Floor */
+    .sf-floor-wrap {
+      background: #BDBDBD;
+      padding: 8px 16px;
+      text-align: center;
+    }
+    .sf-floor-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: #757575;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Branch Profile */
+    .branch-profile {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1.5px solid #F0F0F0;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+    }
+    .bp-top {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 12px;
+    }
+    .bp-badge {
+      background: var(--red-light);
+      color: var(--red);
+      font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 6px;
+    }
+    .bp-rating { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .bp-rating span { color: var(--gray); font-weight: 400; }
+    .bp-name { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+    .bp-addr { font-size: 13px; color: var(--gray-dark); margin-bottom: 10px; }
+    .bp-status { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .bp-open { font-size: 13px; font-weight: 700; color: #388E3C; }
+    .bp-close { font-size: 12px; color: var(--gray); }
+    .bp-divider { height: 1px; background: #F0F0F0; margin: 14px 0; }
+    .bp-section-title {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gray); margin-bottom: 12px;
+    }
+    .bp-services {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; margin-bottom: 4px;
+    }
+    .bp-service { font-size: 13px; color: var(--dark); }
+    .bp-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .bp-chip {
+      background: var(--gray-light);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px; font-weight: 700;
+    }
+    .bp-cta {
+      display: block;
+      background: var(--red);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .bp-cta:hover { background: var(--red-dark); }
+
+    /* Branch types */
+    .btype-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+    .btype-card {
+      background: white; border-radius: 16px;
+      padding: 24px; border: 1.5px solid #F0F0F0;
+      position: relative; transition: all 0.3s;
+    }
+    .btype-card:hover { border-color: var(--red-mid); transform: translateY(-3px); }
+    .btype-hot { border-color: var(--red-mid); background: var(--red-light); }
+    .btype-hot-label {
+      position: absolute; top: 14px; right: 14px;
+      font-size: 11px; font-weight: 700;
+      background: var(--red); color: white;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .btype-icon-wrap { font-size: 32px; margin-bottom: 12px; }
+    .btype-info .btype-name { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .btype-info p { font-size: 13px; color: var(--gray-dark); line-height: 1.6; margin-bottom: 12px; }
+    .btype-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .btype-specs span {
+      background: var(--gray-light); border-radius: 6px;
+      padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--gray-dark);
+    }
+
+    /* Seller Section */
+    .seller-perks { display: flex; flex-direction: column; gap: 16px; }
+    .seller-perk { display: flex; gap: 14px; align-items: flex-start; }
+    .sp-icon {
+      width: 40px; height: 40px;
+      background: var(--red-light); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .seller-perk strong { font-size: 15px; font-weight: 700; color: var(--dark); display: block; margin-bottom: 3px; }
+    .seller-perk p { font-size: 13px; color: var(--gray-dark); }
+    .seller-stats-card {
+      background: var(--dark); border-radius: 20px; padding: 28px;
+      color: white;
+    }
+    .ssc-header { margin-bottom: 20px; }
+    .ssc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); margin-bottom: 4px; }
+    .ssc-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
+    .ssc-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: rgba(255,255,255,0.7); }
+    .ssc-val-bad { color: #EF5350; font-weight: 700; }
+    .ssc-val-good { color: #69F0AE; font-weight: 700; }
+    .ssc-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 8px 0; }
+    .ssc-saving { color: #FFD54F; font-weight: 800; font-size: 15px; }
+    .ssc-highlight {
+      margin-top: 20px;
+      background: var(--red);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+    .ssc-highlight strong { font-size: 36px; font-weight: 900; color: white; display: block; }
+    .ssc-highlight span { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+    /* Tracking */
+    .track-demo-wrap {
+      max-width: 800px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 32px; align-items: start;
+    }
+    .track-input-demo {
+      background: white; border-radius: 20px; padding: 28px;
+      border: 1.5px solid #F0F0F0;
+    }
+    .track-label { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+    .track-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .track-input {
+      flex: 1; padding: 12px 14px;
+      border: 1.5px solid #EEEEEE; border-radius: 10px;
+      font-size: 13px; font-family: inherit; color: var(--gray);
+      background: var(--gray-light);
+    }
+    .track-btn {
+      background: var(--red); color: white;
+      border: none; border-radius: 10px;
+      padding: 12px 18px; font-size: 13px; font-weight: 700;
+      font-family: inherit; cursor: pointer; white-space: nowrap;
+    }
+    .track-or { font-size: 12px; color: var(--gray); margin-bottom: 12px; text-align: center; }
+    .track-line-btn {
+      display: block; text-align: center;
+      background: #00C300; color: white;
+      padding: 12px; border-radius: 10px;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none;
+    }
+    .track-timeline {
+      background: white; border-radius: 20px; padding: 24px;
+      border: 1.5px solid #F0F0F0;
+    }
+    .tt-item { display: flex; gap: 14px; align-items: flex-start; }
+    .tt-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 3px;
+    }
+    .tt-dot.done   { background: #4CAF50; }
+    .tt-dot.active { background: var(--red); box-shadow: 0 0 0 3px rgba(229,57,53,0.2); }
+    .tt-dot.pending { background: #E0E0E0; }
+    .tt-line { width: 2px; height: 20px; margin-left: 6px; border-radius: 1px; }
+    .done-line { background: #4CAF50; }
+    .tt-line:not(.done-line) { background: #E0E0E0; }
+    .tt-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 3px; }
+    .tt-time { font-size: 12px; color: var(--gray); }
+    .tt-loc { font-size: 12px; color: var(--gray-dark); }
+    .tt-item.tt-pending .tt-title { color: var(--gray); }
+    .tt-item + .tt-item, .tt-line + .tt-item { margin-top: 0; }
+    .tt-item { margin-bottom: 4px; }
+
+    /* FAQ */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid #EEEEEE;
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      padding: 18px 4px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; font-size: 15px; font-weight: 600;
+      color: var(--dark); font-family: inherit;
+      text-align: left;
+    }
+    .faq-q:hover { color: var(--red); }
+    .faq-icon { font-size: 20px; font-weight: 300; color: var(--red); flex-shrink: 0; transition: transform 0.2s; }
+    .faq-icon.open { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 14px; color: var(--gray-dark);
+      line-height: 1.7; padding: 0 4px 16px;
+      display: none;
+    }
+    .faq-a.open { display: block; }
+
+    @media(max-width:900px) {
+      .branch-showcase-wrap { grid-template-columns: 1fr; }
+      .btype-grid { grid-template-columns: 1fr; }
+      .track-demo-wrap { grid-template-columns: 1fr; }
+      .seller-section-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    // Scroll animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const icon = btn.querySelector('.faq-icon');
+      const answer = btn.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+      // Open clicked
+      if (!isOpen) { answer.classList.add('open'); icon.classList.add('open'); }
+    }
+
+    // Branch chip interaction
+    document.querySelectorAll('.branch-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const name = chip.textContent.trim().replace('📍','').trim();
+        document.querySelector('.search-input-wrap input').value = name;
+      });
+    });
+
+    // Smooth nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 80) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--red)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
