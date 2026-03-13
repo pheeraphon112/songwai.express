@@ -356,14 +356,37 @@
       gap: 28px;
       flex-wrap: wrap;
     }
+    .carrier-logo-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 1px solid #EEEEEE;
+      border-radius: 10px;
+      padding: 6px 14px;
+      height: 44px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .carrier-logo-card:hover {
+      border-color: #D0D0D0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .carrier-logo-card img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    /* fallback pill (Ninja Van — no logo yet) */
     .carrier-pill {
       display: flex;
       align-items: center;
       gap: 6px;
       background: white;
       border: 1px solid #EEEEEE;
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 6px 14px;
+      height: 44px;
       font-size: 13px;
       font-weight: 600;
       color: var(--gray-dark);
@@ -1205,12 +1228,13 @@
       <span class="carriers-label">ขนส่งพาร์ทเนอร์</span>
       <div class="carriers-divider"></div>
       <div class="carriers-list">
-        <div class="carrier-pill"><span class="carrier-dot" style="background:#FF6B00;"></span>Flash Express</div>
-        <div class="carrier-pill"><span class="carrier-dot" style="background:#009B4D;"></span>Kerry</div>
-        <div class="carrier-pill"><span class="carrier-dot" style="background:#F44336;"></span>J&T Express</div>
-        <div class="carrier-pill"><span class="carrier-dot" style="background:#D32F2F;"></span>Thailand Post</div>
+        <div class="carrier-logo-card"><img src="logos/flash-express.png" alt="Flash Express"></div>
+        <div class="carrier-logo-card"><img src="logos/kerry-express.png" alt="Kerry Express"></div>
+        <div class="carrier-logo-card"><img src="logos/jt-express.png" alt="J&T Express"></div>
+        <div class="carrier-logo-card"><img src="logos/thailand-post.png" alt="Thailand Post"></div>
+        <div class="carrier-logo-card"><img src="logos/best-express.png" alt="BEST Express"></div>
+        <div class="carrier-logo-card"><img src="logos/shopee-xpress.png" alt="Shopee Xpress"></div>
         <div class="carrier-pill"><span class="carrier-dot" style="background:#1565C0;"></span>Ninja Van</div>
-        <div class="carrier-pill"><span class="carrier-dot" style="background:#6A1B9A;"></span>Best Express</div>
       </div>
     </div>
   </div>
@@ -1923,7 +1947,7 @@
           <div class="footer-contacts">
             <div class="contact-item"><span class="ci-icon">📞</span> 02-XXX-XXXX</div>
             <div class="contact-item"><span class="ci-icon">💬</span> LINE: @songwai</div>
-            <div class="contact-item"><span class="ci-icon">✉️</span> hello@songwai.express</div>
+            <div class="contact-item"><span class="ci-icon">✉️</span> contact@songwai.express</div>
           </div>
         </div>
         <div class="footer-col">
