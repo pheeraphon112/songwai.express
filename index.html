@@ -44,8 +44,24 @@
       display: flex; align-items: center; justify-content: space-between;
       height: 68px;
     }
-    .nav-logo img {
-      height: 56px; width: auto; display: block;
+    .nav-logo {
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0;
+    }
+    .logo-mark {
+      display: flex; align-items: baseline; gap: 2px;
+      line-height: 1;
+    }
+    .logo-th {
+      font-size: 26px; font-weight: 900;
+      color: var(--red);
+      letter-spacing: -0.5px;
+    }
+    .logo-en {
+      font-size: 13px; font-weight: 700;
+      color: var(--dark);
+      letter-spacing: 0.5px;
+      text-transform: lowercase;
     }
     .nav-links {
       display: flex; align-items: center; gap: 32px; list-style: none;
@@ -165,6 +181,39 @@
       border-radius: 50%;
       opacity: 0.15;
       animation: spinSlow 30s linear infinite;
+    }
+    .hero-badge-seal {
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2px;
+      box-shadow: 0 12px 48px rgba(192,57,43,0.35);
+      position: relative;
+    }
+    .hero-badge-seal::before {
+      content: '';
+      position: absolute; inset: 10px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.4);
+    }
+    .seal-th {
+      font-size: 52px; font-weight: 900;
+      color: white; line-height: 1;
+      letter-spacing: -1px;
+    }
+    .seal-en {
+      font-size: 13px; font-weight: 800;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .seal-tagline {
+      font-size: 10px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 1px;
+      margin-top: 4px;
     }
     .hero-badge-img {
       width: 320px; height: 320px;
@@ -504,10 +553,18 @@
       gap: 48px; margin-bottom: 48px;
       padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .footer-logo img {
-      height: 76px; width: auto; opacity: 0.95;
+    .footer-logo-mark {
+      display: flex; align-items: baseline; gap: 2px;
       margin-bottom: 14px;
-      border-radius: 12px;
+      text-decoration: none;
+    }
+    .footer-logo-mark .logo-th {
+      font-size: 28px; font-weight: 900;
+      color: var(--yellow);
+    }
+    .footer-logo-mark .logo-en {
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,0.6);
     }
     .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.45); font-weight: 400; line-height: 1.7; margin-bottom: 20px; }
     .footer-contacts { display: flex; flex-direction: column; gap: 8px; }
@@ -562,7 +619,9 @@
   <!-- ── NAV ── -->
   <nav>
     <a href="#" class="nav-logo">
-      <img src="logos/songwai-logo.png" alt="ส่งไว เอ็กซ์เพรส">
+      <div class="logo-mark">
+        <span class="logo-th">ส่งไว</span><span class="logo-en">.express</span>
+      </div>
     </a>
     <ul class="nav-links">
       <li><a href="#how">วิธีส่ง</a></li>
@@ -613,7 +672,11 @@
         <div class="hero-badge-wrap">
           <div class="hero-badge-bg"></div>
           <div class="hero-badge-bg-2"></div>
-          <img src="logos/songwai-badge.png" alt="ส่งไว" class="hero-badge-img">
+          <div class="hero-badge-seal">
+            <div class="seal-th">ส่งไว</div>
+            <div class="seal-en">Express</div>
+            <div class="seal-tagline">ส่งไว ไม่ต้องรอ</div>
+          </div>
 
           <div class="hero-chip chip-1">
             <span class="chip-dot green"></span>
@@ -939,7 +1002,9 @@
     <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-logo">
-          <img src="logos/songwai-badge.png" alt="ส่งไว เอ็กซ์เพรส">
+          <div class="footer-logo-mark">
+            <span class="logo-th">ส่งไว</span><span class="logo-en">.express</span>
+          </div>
           <p class="footer-tagline">บริการรับฝากพัสดุ Drop-Off ใกล้บ้านคุณ<br>ราคาดี เร็ว เชื่อถือได้ ทั่วประเทศไทย</p>
           <div class="footer-contacts">
             <div class="footer-contact-item">📞 02-XXX-XXXX</div>
